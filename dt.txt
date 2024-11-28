@@ -7,10 +7,11 @@ import seaborn as sns
 from sklearn.metrics import classification_report
 
 # Load the dataset
-data = pd.read_csv(r"C:\\Users\\DELL\\OneDrive\\Documents\\Daily_Weather_Dataset.csv")
+data = pd.read_csv(r"Weather_Dataset.csv")
 
-# Remove the 'number' column, as it's not a feature
-data.drop(['number'], axis=1, inplace=True)
+# Check if 'number' column exists before dropping it
+if 'number' in data.columns:
+    data.drop(['number'], axis=1, inplace=True)
 
 # Drop rows with missing values
 data = data.dropna()
@@ -57,7 +58,7 @@ plot_tree(humidity_classifier,
           fontsize=14, 
           rounded=True, 
           proportion=True)  
-plt.title('Decision Tree for Humidity Prediction',fontsize=20)
+plt.title('Decision Tree for Humidity Prediction', fontsize=20)
 plt.show()
 
 # Compute confusion matrix
@@ -66,7 +67,7 @@ conf_matrix = confusion_matrix(y_test, predictions)
 print("\nConfusion Matrix :\n", conf_matrix)
 
 # Plot confusion matrix
-plt.figure(figsize=(6,4))
+plt.figure(figsize=(6, 4))
 sns.heatmap(conf_matrix, annot=True, fmt="d", cmap="Blues", xticklabels=['Low Humidity', 'High Humidity'], yticklabels=['Low Humidity', 'High Humidity'])
 plt.ylabel('Actual')
 plt.xlabel('Predicted')
@@ -76,4 +77,3 @@ plt.show()
 # Print the classification report
 print("\nClassification Report :")
 print(classification_report(y_test, predictions, target_names=['Low Humidity', 'High Humidity']))
-
